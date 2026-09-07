@@ -1,0 +1,6 @@
+{
+  "name": "Agni-Drishti Tactical HUD",
+  "description": "Subcontinental satellite geo-intelligence and thermal infrared monitoring platform with human-in-the-loop validation, facility cadastre, and disaster response dispatch.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

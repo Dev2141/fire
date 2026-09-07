@@ -1,0 +1,22 @@
+# Large Data Files
+*.tif
+all tif files/
+*.pbf
+*.parquet
+
+# Frontend Dependencies
+frontend/node_modules/
+frontend/dist/
+.env
+
+# Python Caches
+__pycache__/
+*.pyc
+
+# Temporary/Old Files
+temp/
+
+# IDE/OS files
+.vscode/
+.idea/
+.DS_Store
