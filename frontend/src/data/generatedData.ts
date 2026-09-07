@@ -319295,3 +319295,4 @@ export const MAP_HOTSPOTS = [
     "info": "Proximity: 0.0 km"
   }
 ];
+

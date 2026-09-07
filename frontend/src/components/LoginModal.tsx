@@ -62,7 +62,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
         <div className="text-center space-y-2">
           <div className="mx-auto w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ff6b00] to-[#93000a] p-0.5 shadow-xl shadow-[#ff6b00]/25 flex items-center justify-center">
             <div className="w-full h-full bg-[#10141a] rounded-[14px] flex items-center justify-center">
-              <Flame className="w-7 h-7 text-[#ff6b00] animate-pulse" />
+              <Flame className="w-7 h-7 text-[#ff6b00] " />
             </div>
           </div>
 
@@ -152,7 +152,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
-                <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full " />
                 AUTHENTICATING WITH NTRO GATEWAY...
               </span>
             ) : (
@@ -169,3 +169,4 @@ export const LoginModal: React.FC<LoginModalProps> = ({
     </div>
   );
 };
+

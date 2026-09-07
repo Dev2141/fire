@@ -26,7 +26,7 @@ export const DispatchAlertModal: React.FC<DispatchAlertModalProps> = ({
         <div className="flex items-center justify-between pb-3 border-b border-[#262a31]">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-red-600/20 border border-red-500/50 flex items-center justify-center">
-              <Radio className="w-4 h-4 text-red-500 animate-pulse" />
+              <Radio className="w-4 h-4 text-red-500 " />
             </div>
             <div>
               <span className="text-[10px] font-mono font-bold text-red-400 uppercase tracking-wider block">
@@ -78,3 +78,4 @@ export const DispatchAlertModal: React.FC<DispatchAlertModalProps> = ({
     </div>
   );
 };
+

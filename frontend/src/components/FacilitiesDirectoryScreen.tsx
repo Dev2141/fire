@@ -340,7 +340,7 @@ export const FacilitiesDirectoryScreen: React.FC<FacilitiesDirectoryScreenProps>
                 <div className="bg-[#10141a] rounded-xl border border-[#262a31] overflow-hidden">
                   <div className="px-3.5 py-2.5 bg-[#181c22] border-b border-[#262a31] flex items-center justify-between text-xs font-mono">
                     <span className="font-bold text-red-400 flex items-center gap-1.5">
-                      <Video className="w-3.5 h-3.5 text-red-500 animate-pulse" />
+                      <Video className="w-3.5 h-3.5 text-red-500 " />
                       STACK CCTV GROUND TRUTH // ELEVATED FLARE #4
                     </span>
                     <span className="text-[10px] text-red-400 bg-red-950/50 px-2 py-0.5 rounded border border-red-800/50 font-bold">
@@ -482,7 +482,7 @@ export const FacilitiesDirectoryScreen: React.FC<FacilitiesDirectoryScreenProps>
                       {selectedFacility.recentDetections.map((det) => (
                         <tr key={det.id} className="hover:bg-[#181c22] transition-colors">
                           <td className="p-3 font-bold text-white flex items-center gap-1.5">
-                            {det.flagged && <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />}
+                            {det.flagged && <span className="w-2 h-2 rounded-full bg-red-500 opacity-80" />}
                             {det.timestampUtc}
                           </td>
                           <td className="p-3">
@@ -598,3 +598,4 @@ export const FacilitiesDirectoryScreen: React.FC<FacilitiesDirectoryScreenProps>
     </div>
   );
 };
+

@@ -44,7 +44,7 @@
   50% { opacity: 1; transform: scale(1.18); }
 }
 
-.animate-thermal-pulse {
+. {
   animation: thermal-pulse 2.2s ease-in-out infinite;
 }
 
@@ -52,4 +52,5 @@
   animation: radar-sweep 6s linear infinite;
   transform-origin: center center;
 }
+
 

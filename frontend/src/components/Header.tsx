@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
         >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ff6b00] to-[#93000a] flex items-center justify-center p-0.5 shadow-lg shadow-[#ff6b00]/20 group-hover:scale-105 transition-transform">
             <div className="w-full h-full bg-[#10141a] rounded-[10px] flex items-center justify-center relative overflow-hidden">
-              <Flame className="w-5 h-5 text-[#ff6b00] animate-pulse" />
+              <Flame className="w-5 h-5 text-[#ff6b00] " />
               <div className="absolute inset-0 bg-[#ff6b00]/10 rounded-[10px]" />
             </div>
           </div>
@@ -75,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({
               : 'text-[#a98a7d] hover:text-white hover:bg-[#1c2026]'
           }`}
         >
-          <span className={`w-2 h-2 rounded-full ${activeTab === 'map' ? 'bg-red-500 animate-ping' : 'bg-red-500/60'}`} />
+          <span className={`w-2 h-2 rounded-full ${activeTab === 'map' ? 'bg-red-500 opacity-80' : 'bg-red-500/60'}`} />
           MAP DASHBOARD
         </button>
 
@@ -160,7 +160,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* RF-NET Status Tag */}
         <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 bg-[#181c22] border border-[#262a31] rounded-full text-[10px] font-mono text-[#a98a7d]">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 opacity-80" />
           <span className="text-emerald-400 font-semibold">RF-NET v2.4 ACTIVATED</span>
         </div>
 
@@ -284,3 +284,4 @@ export const Header: React.FC<HeaderProps> = ({
     </header>
   );
 };
+

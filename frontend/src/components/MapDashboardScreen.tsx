@@ -1,63 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Flame, 
-  MapPin, 
-  Building2, 
-  AlertTriangle,
-  ChevronRight,
-} from 'lucide-react';
-import { MAP_HOTSPOTS } from '../data/generatedData';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { Building2, ChevronRight } from 'lucide-react';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
-import { createRoot } from 'react-dom/client';
+
+const API = 'http://localhost:3001/api';
+
+type Hotspot = {
+  id: string; lat: number; lng: number; risk: string; category: string;
+  frp: number; title: string;
+};
 
 interface MapDashboardScreenProps {
   onSelectEpisodeToReview: (id: string) => void;
   onOpenFacilityDossier: (facilityId?: string) => void;
 }
 
-// A helper component to automatically fly the map to the selected hotspot
-const MapPanController: React.FC<{
-  selectedHotspot: typeof MAP_HOTSPOTS[0] | null;
-}> = ({ selectedHotspot }) => {
-  const map = useMap();
-  useEffect(() => {
-    if (selectedHotspot) {
-      // Pan to the selected hotspot with a smooth animation and zoom in a bit
-      map.flyTo([selectedHotspot.lat, selectedHotspot.lng], 12, {
-        duration: 1.5,
-      });
-    }
-  }, [selectedHotspot, map]);
-  return null;
-};
 
-// Create custom animated divIcons using React markup rendered to string
+// Cached icons for performance - avoid recreating on every render
+const iconCache = new Map<string, L.DivIcon>();
+
 const createCustomIcon = (risk: string, category: string, isSelected: boolean) => {
-  const isWildfire = category === 'wildfire';
+  const key = `${risk}-${category}-${isSelected}`;
+  if (iconCache.has(key)) return iconCache.get(key)!;
+
   const isCritical = risk === 'CRITICAL';
-  
-  const outerColorClass = isCritical ? 'bg-red-500' : isWildfire ? 'bg-amber-500' : 'bg-[#ff6b00]';
-  const innerColorClass = isCritical ? 'bg-red-600' : isWildfire ? 'bg-amber-600' : 'bg-[#ff6b00]';
-  const coreColorClass = isCritical ? 'bg-red-500 shadow-red-500/80' : isWildfire ? 'bg-amber-500 shadow-amber-500/80' : 'bg-[#ff6b00] shadow-[#ff6b00]/80';
-  const selectedRingClass = isSelected ? 'scale-125 ring-4 ring-[#ff6b00]' : '';
+  const isWildfire = category === 'wildfire';
+  const color = isCritical ? '#ef4444' : isWildfire ? '#f59e0b' : '#ff6b00';
+  const border = isSelected ? '3px solid white' : '2px solid rgba(255,255,255,0.7)';
+  const size = isSelected ? 14 : 10;
 
-  const html = `
-    <div class="relative flex items-center justify-center -translate-x-1/2 -translate-y-1/2 w-10 h-10 group">
-      <span class="absolute w-10 h-10 rounded-full animate-ping opacity-60 ${outerColorClass}"></span>
-      <span class="absolute w-6 h-6 rounded-full opacity-40 animate-pulse ${innerColorClass}"></span>
-      <div class="w-4 h-4 rounded-full border-2 border-white flex items-center justify-center shadow-lg transition-transform group-hover:scale-125 ${selectedRingClass} ${coreColorClass}">
-      </div>
-    </div>
-  `;
+  const html = `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${color};border:${border};box-shadow:0 0 6px ${color};"></div>`;
 
-  return L.divIcon({
+  const icon = L.divIcon({
     html,
-    className: 'custom-leaflet-marker',
-    iconSize: [40, 40],
-    iconAnchor: [20, 20],
+    className: '',
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
   });
+  iconCache.set(key, icon);
+  return icon;
 };
 
 
@@ -67,13 +49,20 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
 }) => {
   const [activeLayer, setActiveLayer] = useState<'THERMAL_IR' | 'OPTICAL'>('THERMAL_IR');
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
-  const [selectedHotspot, setSelectedHotspot] = useState<typeof MAP_HOTSPOTS[0] | null>(MAP_HOTSPOTS[0]);
-  const [radarActive, setRadarActive] = useState<boolean>(true);
+  const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null);
+  const [allHotspots, setAllHotspots] = useState<Hotspot[]>([]);
 
-  const filteredHotspots = MAP_HOTSPOTS.filter(h => {
-    if (selectedCategory !== 'ALL' && h.category !== selectedCategory.toLowerCase()) return false;
-    return true;
-  });
+  useEffect(() => {
+    fetch(`${API}/fires/map`)
+      .then(r => r.json())
+      .then((data: Hotspot[]) => setAllHotspots(data))
+      .catch(() => console.warn('Could not fetch map markers from API'));
+  }, []);
+
+  const filteredHotspots = selectedCategory === 'ALL'
+    ? allHotspots
+    : allHotspots.filter(h => h.category === selectedCategory.toLowerCase());
+
 
   return (
     <div className="relative w-full h-[calc(100vh-100px)] min-h-[700px] bg-[#070a0e] overflow-hidden flex flex-col select-none">
@@ -122,13 +111,13 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
         <div className="pointer-events-auto bg-[#10141a]/90 backdrop-blur-md border border-[#262a31] p-3.5 rounded-2xl shadow-2xl min-w-[240px] space-y-1">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono font-bold text-red-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-red-500 opacity-80" />
               CRITICAL THERMAL ALERTS
             </span>
             <span className="text-[10px] font-mono text-emerald-400">P0 ACTIVE</span>
           </div>
           <div className="text-2xl font-mono font-extrabold text-white">
-            {MAP_HOTSPOTS.filter(h => h.risk === 'CRITICAL').length} <span className="text-xs font-normal text-red-400">(NEW LOCKS)</span>
+            {allHotspots.filter(h => h.risk === 'CRITICAL').length} <span className="text-xs font-normal text-red-400">(NEW LOCKS)</span>
           </div>
           <div className="text-[11px] text-[#a98a7d]">Subcontinental Swath VIIRS-375m</div>
         </div>
@@ -186,20 +175,11 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
             ))}
           </MarkerClusterGroup>
         </MapContainer>
-
-        {/* Tactical Radar Scanline Effect */}
-        {radarActive && (
-          <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden z-[500]">
-            <div className="w-[1000px] h-[1000px] rounded-full border border-[#ff6b00]/10 radar-sweep-effect relative">
-              <div className="w-1/2 h-1/2 bg-gradient-to-br from-[#ff6b00]/15 to-transparent rounded-tl-full origin-bottom-right" />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Floating Right Detail Card (When a hotspot is selected) */}
       {selectedHotspot && (
-        <div className="absolute bottom-6 right-4 lg:right-6 z-[1000] max-w-sm w-full bg-[#181c22]/95 backdrop-blur-md border border-[#262a31] rounded-2xl p-4 space-y-3 shadow-2xl animate-in fade-in slide-in-from-bottom-4">
+        <div className="absolute bottom-6 right-4 lg:right-6 z-[1000] max-w-sm w-full bg-[#181c22]/95 backdrop-blur-md border border-[#262a31] rounded-2xl p-4 space-y-3 shadow-2xl">
           <div className="flex items-center justify-between pb-2 border-b border-[#262a31]">
             <div className="flex items-center gap-2">
               <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
@@ -263,18 +243,8 @@ export const MapDashboardScreen: React.FC<MapDashboardScreenProps> = ({
         </div>
       )}
 
-      {/* Radar Toggle */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[1000] flex items-center gap-1.5 bg-[#10141a]/90 backdrop-blur-md p-1.5 rounded-full border border-[#262a31] shadow-2xl">
-        <button
-          onClick={() => setRadarActive(!radarActive)}
-          className={`px-3 py-1 rounded-full text-xs font-mono font-semibold transition-colors ${
-            radarActive ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/40' : 'bg-[#181c22] text-[#a98a7d]'
-          }`}
-        >
-          RADAR SCAN {radarActive ? 'ON' : 'OFF'}
-        </button>
-      </div>
 
     </div>
   );
 };
+

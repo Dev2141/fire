@@ -232,7 +232,7 @@ export const AnalyticsTrendsScreen: React.FC<AnalyticsTrendsScreenProps> = ({
               />
 
               {/* Callout 1: Jamnagar Exceedance Spike at (620, 30) */}
-              <circle cx="620" cy="30" r="5" fill="#ff6b00" stroke="#fff" strokeWidth="2" className="animate-pulse" />
+              <circle cx="620" cy="30" r="5" fill="#ff6b00" stroke="#fff" strokeWidth="2" className="" />
               <line x1="620" y1="30" x2="620" y2="70" stroke="#ff6b00" strokeWidth="1" strokeDasharray="2 2" />
 
               {/* Callout 2: Bastar Canopy Breakthrough at (380, 75) */}
@@ -500,3 +500,4 @@ export const AnalyticsTrendsScreen: React.FC<AnalyticsTrendsScreenProps> = ({
     </div>
   );
 };
+

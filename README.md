@@ -54,22 +54,38 @@ python run_risk_scoring_southern.py
 # 3. Analyze surrounding Land Cover (Crops/Trees/Urban) using TIF files
 python run_lulc_enrichment_southern.py
 
-# 4. Generate the Typescript data bridge for the UI
+# 4. Generate the JSON data files for the backend server
 cd frontend
+python server/export_json.py
+
+# 5. Generate the Typescript data bridge for the UI (for offline fallback)
 python generate_frontend_data.py
 ```
 
-### 2. Run the React Tactical Dashboard
-Open a second terminal inside the `frontend` folder:
+### 2. Run the Express API Backend
+Open a **second terminal** inside the `frontend` folder. This serves all fire and facility data via a fast REST API with pagination and filtering:
 
 ```bash
 cd frontend
 
-# Install UI dependencies (Leaflet, Tailwind, Lucide, etc.)
+# Install dependencies
 npm install
 
-# Start the high-performance Vite dev server
+# Start the Express data server (runs on port 3001)
+npm run server
+```
+
+### 3. Run the React Tactical Dashboard
+Open a **third terminal** inside the `frontend` folder:
+
+```bash
+cd frontend
+
+# Start the Vite dev server (runs on port 3000)
 npm run dev
 ```
 
-Finally, open your browser to `http://localhost:3000` (or the port Vite provides) to access the interactive map and review queue!
+Finally, open your browser to **http://localhost:3000** to access the interactive tactical map and review queue!
+
+> **Why two servers?**
+> The **Express server (port 3001)** serves data with pagination — the frontend fetches only what it needs per page instead of loading all 5,600+ fires at once. This is what makes navigation smooth and instant.

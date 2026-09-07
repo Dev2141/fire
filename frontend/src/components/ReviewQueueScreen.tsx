@@ -256,7 +256,7 @@ export const ReviewQueueScreen: React.FC<ReviewQueueScreenProps> = ({
               PRIORITY THERMAL EPISODES ({filteredEpisodes.length})
             </div>
             <div className="text-[10px] font-mono text-emerald-400 flex items-center gap-1.5 bg-[#181c22] px-2 py-0.5 rounded border border-[#262a31]">
-              <RefreshCw className="w-2.5 h-2.5 animate-spin" />
+              <RefreshCw className="w-2.5 h-2.5 " />
               Auto-Sync: {syncTimer}s
             </div>
           </div>
@@ -516,7 +516,7 @@ export const ReviewQueueScreen: React.FC<ReviewQueueScreenProps> = ({
 
                     {/* Reticle / Crosshair */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-20 h-20 border border-[#ff6b00]/60 rounded-full flex items-center justify-center animate-pulse">
+                      <div className="w-20 h-20 border border-[#ff6b00]/60 rounded-full flex items-center justify-center ">
                         <div className="w-2 h-2 bg-[#ff6b00] rounded-full shadow-lg shadow-[#ff6b00]" />
                         <div className="absolute w-24 h-[1px] bg-[#ff6b00]/40" />
                         <div className="absolute h-24 w-[1px] bg-[#ff6b00]/40" />
@@ -541,7 +541,7 @@ export const ReviewQueueScreen: React.FC<ReviewQueueScreenProps> = ({
               <div className="bg-[#10141a] rounded-xl border border-[#ff6b00]/30 p-4 space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-[#262a31]">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#ff6b00] animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-[#ff6b00] opacity-80" />
                     <span className="text-xs font-mono font-bold text-white tracking-wider">
                       ANALYST SIGN-OFF & CORRECTION TERMINAL
                     </span>
@@ -638,7 +638,7 @@ export const ReviewQueueScreen: React.FC<ReviewQueueScreenProps> = ({
                     onClick={handleConfirmCurrent}
                     className="flex-1 min-w-[240px] py-3 px-4 bg-gradient-to-r from-[#ff6b00] to-[#ff8c33] hover:from-[#e56000] hover:to-[#ff6b00] text-white font-bold font-mono text-xs rounded-xl shadow-lg shadow-[#ff6b00]/25 transition-all flex items-center justify-center gap-2 active:scale-98"
                   >
-                    <Flame className="w-4 h-4 text-white animate-pulse" />
+                    <Flame className="w-4 h-4 text-white " />
                     CONFIRM BURN & BROADCAST ALERT
                   </button>
 
@@ -681,3 +681,4 @@ export const ReviewQueueScreen: React.FC<ReviewQueueScreenProps> = ({
     </div>
   );
 };
+

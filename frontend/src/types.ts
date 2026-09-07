@@ -127,3 +127,4 @@ export interface AnalystUser {
   clearanceLevel: string;
   isAuthenticated: boolean;
 }
+

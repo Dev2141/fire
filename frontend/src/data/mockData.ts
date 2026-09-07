@@ -730,3 +730,4 @@ export const MAP_HOTSPOTS = [
     info: "Flare Stack Zone B",
   }
 ];
+

@@ -229,7 +229,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           {/* Status feedback */}
           {statusMessage && (
             <div className="p-2 rounded-lg bg-[#111c2a] border border-[#00c2ff]/40 text-[11px] font-mono text-[#00c2ff] flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#00c2ff] animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-[#00c2ff] opacity-80" />
               <span>{statusMessage}</span>
             </div>
           )}
@@ -242,7 +242,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
           >
             {isLoading ? (
               <span className="flex items-center gap-2 font-mono">
-                <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full " />
                 AUTHENTICATING...
               </span>
             ) : (
@@ -291,3 +291,4 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
     </div>
   );
 };
+

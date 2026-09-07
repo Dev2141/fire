@@ -381,7 +381,7 @@ export const EpisodesTableScreen: React.FC<EpisodesTableScreenProps> = ({
                       <div className="font-mono font-bold text-white group-hover:text-[#ff6b00] transition-colors flex items-center gap-1.5">
                         {ep.id}
                         {ep.isCanopyBreach && (
-                          <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" title="Canopy Breach" />
+                          <span className="w-2 h-2 rounded-full bg-red-500 opacity-80" title="Canopy Breach" />
                         )}
                       </div>
                       <div className="text-[10px] font-mono text-[#a98a7d]">{ep.sensorPlatform}</div>
@@ -513,7 +513,7 @@ export const EpisodesTableScreen: React.FC<EpisodesTableScreenProps> = ({
             <span className="text-[10px] font-mono font-semibold text-[#a98a7d] uppercase tracking-wider">
               ACTIVE SPACECRAFT INGEST
             </span>
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="w-2 h-2 rounded-full bg-emerald-400 opacity-80" />
           </div>
           <div className="text-base font-mono font-bold text-white">
             SNPP-VIIRS HIGH PASS
@@ -640,3 +640,4 @@ export const EpisodesTableScreen: React.FC<EpisodesTableScreenProps> = ({
     </div>
   );
 };
+
